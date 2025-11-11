@@ -56,6 +56,12 @@ function listarPedidosPorStatus(statusDesejado) {
 // FEATURE-03: calcularTotalDeVendas()
 // Deve usar .filter() para pegar pedidos 'Entregue' e .reduce()
 // para somar o 'total' de todos eles. Deve retornar um número.
+function calcularTotalDeVendas() {
+  const pedidosEntregues = baseDePedidos.filter(pedido => pedido.status === 'Entregue');
+  const totalDeVendas = pedidosEntregues.reduce((soma, pedido) => soma += pedido.total, 0);
+
+  return totalDeVendas;
+}
 
 // FEATURE-04: gerarResumoDePedidos()
 // Deve usar .map() para retornar um NOVO array de strings
