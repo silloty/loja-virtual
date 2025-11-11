@@ -21,20 +21,25 @@ const baseDePedidos = [
 
 /**
  * BUGFIX-01: Esta função deveria encontrar um pedido pelo ID.
- * Ela não está usando try...catch e não lida com o ID "2008" (string).
+ * Ela não lida com o ID "2008" (string).
  */
-function buscarPedidoPorId(idDesejado) {
-  // BUG: Não tem try...catch
-  const pedidoEncontrado = baseDePedidos.find((pedido) => {
-    return pedido.id === idDesejado; // BUG: Falha com "2008"
-  });
+function buscarPedidoPorId(idDesejado){
+  try{
+    const pedidoEncontrado = baseDePedidos.find(
+      pedido => {
+        return pedido.id === idDesejado;
+      }
+    );
 
-  if (pedidoEncontrado) {
-    console.log("Pedido encontrado:", pedidoEncontrado);
-  } else {
-    // BUG: Deveria lançar 'throw new Error'
-    console.log("ERRO: Pedido não encontrado.");
-  }
+    if(pedidoEncontrado){
+      console.log("Pedido encontrado:", pedidoEncontrado);
+    } else{
+      throw new Error(`ERRO: Pedido não encontrado.`);
+    }
+
+  } catch(erro){
+    console.log(`Entrada não corresponde a nenhum pedido. `, erro.message);
+  } 
 }
 
 /**
@@ -121,5 +126,3 @@ listarPedidosPorStatus("Pendente");
 
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003); // Deve funcionar
-
-//TESTE SILAS PR
