@@ -78,7 +78,10 @@ function listarPedidosPorStatus(statusDesejado) {
 // FEATURE-08: listarClientes()
 // Deve usar .map() para retornar um array
 // contendo APENAS o nome (cliente) de todos os pedidos.
-
+function listarClientes(){
+  const clientes = baseDePedidos.map(pedido => pedido.cliente);
+  return clientes;
+}
 // FEATURE-09: normalizarNomesClientes()
 // Deve usar .forEach() (ou .map()) para corrigir o nome
 // do cliente no pedido "2007". Deve usar .trim() e
