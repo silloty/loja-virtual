@@ -54,7 +54,7 @@ function calcularTotalDeVendas(pedidos) {
         .filter(pedido => pedido.status === "Entregue")
         .reduce((acum, pedido) => {
             const v = Number(pedido.valor ?? pedido.preco ?? pedido.total ?? 0);
-            return acum + (isNaN(v) ? 0 : v);
+            return acum + v;
         }, 0);
 }
 
