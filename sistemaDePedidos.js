@@ -41,10 +41,9 @@ function buscarPedidoPorId(idDesejado) {
  * BUGFIX-02: Esta função deveria listar pedidos de um status, mas está quebrada.
  */
 function listarPedidosPorStatus(statusDesejado) {
-  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);
-  // BUG: A lógica do filtro está errada, não usa o parâmetro
+  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);  
   const pedidosFiltrados = baseDePedidos.filter((pedido) => {
-    return pedido.status === 'Entregue'; // Está fixo!
+    return pedido.status === statusDesejado; // Não está mais fixo, vai bater com o parâmetro
   });
   console.log(pedidosFiltrados);
 }
