@@ -49,6 +49,15 @@ function listarPedidosPorStatus(statusDesejado) {
   console.log(pedidosFiltrados);
 }
 
+function calcularTotalDeVendas(pedidos) {
+    return pedidos
+        .filter(pedido => pedido.status === "Entregue")
+        .reduce((acum, pedido) => {
+            const v = Number(pedido.valor ?? pedido.preco ?? pedido.total ?? 0);
+            return acum + (isNaN(v) ? 0 : v);
+        }, 0);
+}
+
 // ===================================================================
 // FUNÇÕES FALTANTES (FEATURES PARA VOCÊS CRIAREM)
 // ===================================================================
