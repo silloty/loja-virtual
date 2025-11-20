@@ -83,7 +83,7 @@ function listarPedidosPorStatus(statusDesejado) {
 // Deve usar .forEach() (ou .map()) para corrigir o nome
 // do cliente no pedido "2007". Deve usar .trim() e
 // capitalizar o nome (ex: "Gabriela Sousa").
-// (Conflita com BUGFIX-13)
+// aaa(Conflita com BUGFIX-13)
 
 // FEATURE-10: encontrarPedidoMaisBarato()
 // Deve usar .reduce() para varrer o array e retornar
