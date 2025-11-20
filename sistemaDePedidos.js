@@ -89,6 +89,18 @@ function listarPedidosPorStatus(statusDesejado) {
 // Deve usar .reduce() para varrer o array e retornar
 // o OBJETO completo do pedido com o 'total' mais baixo.
 
+function encontrarPedidoMaisBarato() {
+  return baseDePedidos.reduce((pedidoMaisBarato, pedidoAtual) => {
+    // Se ainda não existe um "menor", o primeiro vira o menor
+    if (!pedidoMaisBarato) return pedidoAtual;
+
+    // Compara o total atual com o menor total já encontrado
+    return (pedidoAtual.total < pedidoMaisBarato.total)
+      ? pedidoAtual
+      : pedidoMaisBarato;
+  }, null);
+}
+
 // FEATURE-11: listarPedidosRecentes(dias)
 // Deve usar .filter() e o objeto 'new Date()'
 // para retornar pedidos feitos nos últimos 'dias' (ex: 7 dias).
@@ -121,5 +133,6 @@ listarPedidosPorStatus("Pendente");
 
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003); // Deve funcionar
+
 
 //TESTE SILAS PR
