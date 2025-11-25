@@ -11,7 +11,7 @@ const baseDePedidos = [
   { id: 2004, cliente: 'Daniel Moreira', total: 45.00, status: 'Pendente', data: '2025-11-01' },
   { id: 2005, cliente: 'Elisa Fernandes', total: 320.00, status: 'Entregue', data: '2025-11-03' },
   { id: 2006, cliente: 'Felipe Guedes', total: 99.90, status: 'Cancelado', data: '2025-11-05' },
-  { id: 2007, cliente: '   gabriela sousa  ', total: 120.00, status: 'Entregue', data: '2025-10-29' }, // BUG: Nome com formatação errada
+  { id: 2007, cliente: '    gabriela sousa  ', total: 120.00, status: 'Entregue', data: '2025-10-29' }, // BUG: Nome com formatação errada
   { id: "2008", cliente: 'Heitor Alves', total: 75.20, status: 'Enviado', data: '2025-11-02' }  // BUG: ID como string
 ];
 
@@ -79,11 +79,30 @@ function listarPedidosPorStatus(statusDesejado) {
 // Deve usar .map() para retornar um array
 // contendo APENAS o nome (cliente) de todos os pedidos.
 
-// FEATURE-09: normalizarNomesClientes()
-// Deve usar .forEach() (ou .map()) para corrigir o nome
-// do cliente no pedido "2007". Deve usar .trim() e
-// capitalizar o nome (ex: "Gabriela Sousa").
-// (Conflita com BUGFIX-13)
+/**
+ * FEATURE-09 (IMPLEMENTADA): normalizarNomesClientes()
+ * Deve usar .forEach() (ou .map()) para corrigir o nome
+ * do cliente no pedido "2007". Deve usar .trim() e
+ * capitalizar o nome (ex: "Gabriela Sousa").
+ */
+function normalizarNomesClientes() {
+    console.log("\nExecutando FEATURE-09: Normalizando nome do cliente 2007...");
+    baseDePedidos.forEach(pedido => {
+        if (pedido.id === 2007) {
+            let nomeLimpo = pedido.cliente.trim();
+          
+            const nomeCorrigido = nomeLimpo.split(' ').map(word => {
+                if (word.length === 0) return '';
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join(' ');
+
+            
+            pedido.cliente = nomeCorrigido;
+            console.log(`Cliente do pedido 2007 corrigido para: ${pedido.cliente}`);
+        }
+    });
+    return baseDePedidos; 
+}
 
 // FEATURE-10: encontrarPedidoMaisBarato()
 // Deve usar .reduce() para varrer o array e retornar
@@ -120,6 +139,8 @@ function listarPedidosPorStatus(statusDesejado) {
 listarPedidosPorStatus("Pendente");
 
 // Teste do BUGFIX-01
-buscarPedidoPorId(2003); // Deve funcionar
+buscarPedidoPorId(2003);
 
-//TESTE SILAS PR
+// Teste FEATURE-09
+normalizarNomesClientes();
+console.log("Pedido 2007 após a normalização:", baseDePedidos.find(p => p.id === 2007));
