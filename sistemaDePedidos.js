@@ -63,8 +63,8 @@ function listarPedidosPorStatus(statusDesejado) {
 // Ex: "ID: 2001 - Cliente: Ana Silva - Total: R$ 150.50"
 
 function somarPedidosPendentes() {
-  const pedidosPendentes = baseDePedidos.filter(pedido {
-    return pedido.status === 'Pendente';
+  const pedidosPendentes = baseDePedidos.filter(pedido => {
+    return pedido.status === 'Pendente'
   });
 
   const totalSoma = pedidosPendentes.reduce((acumulador , pedidoAtual) => {
