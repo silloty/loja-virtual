@@ -94,6 +94,22 @@ function listarPedidosPorStatus(statusDesejado) {
 // para retornar pedidos feitos nos últimos 'dias' (ex: 7 dias).
 // Dica: new Date(pedido.data)
 
+function listarPedidosRecentes(dias) {
+  const hoje = new Date();
+
+  const pedidosRecentes = baseDePedidos.filter(pedido => {
+    const dataPedido = new Date(pedido.data);
+
+    const diferencaMes = hoje - dataPedido;
+    const msParaDia = 1000 * 60 * 60 * 24;
+    const diferencaDias = diferencaMes / msParaDia;
+
+    return diferencaDias <= dias;
+  });
+
+  return pedidosRecentes;
+}
+
 // FEATURE-12: contarStatusDosPedidos()
 // (Desafio!) Deve usar .reduce() para criar um objeto
 // que conta quantos pedidos existem em CADA status.
