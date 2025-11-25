@@ -62,7 +62,17 @@ function listarPedidosPorStatus(statusDesejado) {
 // com o formato: "ID: [id] - Cliente: [cliente] - Total: R$ [total]"
 // Ex: "ID: 2001 - Cliente: Ana Silva - Total: R$ 150.50"
 
-function somarPedidosPendentes
+function somarPedidosPendentes() {
+  const pedidosPendentes = baseDePedidos.filter(pedido {
+    return pedido.status === 'Pendente';
+  });
+
+  const totalSoma = pedidosPendentes.reduce((acumulador , pedidoAtual) => {
+    return acumulador + pedidoAtual.total;
+  }, 0)
+
+  return totalSoma;
+}
 
 // FEATURE-06: atualizarStatus(idPedido, novoStatus)
 // Deve usar .find() para encontrar o pedido pelo ID. Se encontrar,
@@ -120,4 +130,5 @@ listarPedidosPorStatus("Pendente");
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003); // Deve funcionar
 
-//TESTE SILAS PR
+//TESTE FEATURE-05
+const resultado = somarPedidosPendentes();
