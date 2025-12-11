@@ -80,9 +80,17 @@ function gerarResumoDePedidos() {
   return resumo;
 }
 
-// FEATURE-05: somarPedidosPendentes()
-// Deve usar .filter() e .reduce() para somar o 'total'
-// apenas dos pedidos com status 'Pendente'.
+function somarPedidosPendentes() {
+  const pedidosPendentes = baseDePedidos.filter(pedido => {
+    return pedido.status === 'Pendente'
+  });
+
+  const totalSoma = pedidosPendentes.reduce((acumulador , pedidoAtual) => {
+    return acumulador + pedidoAtual.total;
+  }, 0)
+
+  return totalSoma;
+}
 
 // FEATURE-06: atualizarStatus(idPedido, novoStatus)
 // Deve usar .find() para encontrar o pedido pelo ID. Se encontrar,
@@ -97,30 +105,11 @@ function gerarResumoDePedidos() {
 // Deve usar .map() para retornar um array
 // contendo APENAS o nome (cliente) de todos os pedidos.
 
-/**
- * FEATURE-09 (IMPLEMENTADA): normalizarNomesClientes()
- * Deve usar .forEach() (ou .map()) para corrigir o nome
- * do cliente no pedido "2007". Deve usar .trim() e
- * capitalizar o nome (ex: "Gabriela Sousa").
- */
-function normalizarNomesClientes() {
-    console.log("\nExecutando FEATURE-09: Normalizando nome do cliente 2007...");
-    baseDePedidos.forEach(pedido => {
-        if (pedido.id === 2007) {
-            let nomeLimpo = pedido.cliente.trim();
-          
-            const nomeCorrigido = nomeLimpo.split(' ').map(word => {
-                if (word.length === 0) return '';
-                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-            }).join(' ');
-
-            
-            pedido.cliente = nomeCorrigido;
-            console.log(`Cliente do pedido 2007 corrigido para: ${pedido.cliente}`);
-        }
-    });
-    return baseDePedidos; 
-}
+// FEATURE-09: normalizarNomesClientes()
+// Deve usar .forEach() (ou .map()) para corrigir o nome
+// do cliente no pedido "2007". Deve usar .trim() e
+// capitalizar o nome (ex: "Gabriela Sousa").
+// (Conflita com BUGFIX-13
 
 // FEATURE-10: encontrarPedidoMaisBarato()
 // Deve usar .reduce() para varrer o array e retornar
@@ -175,6 +164,5 @@ listarPedidosPorStatus("Pendente");
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003);
 
-// Teste FEATURE-09
-normalizarNomesClientes();
-console.log("Pedido 2007 após a normalização:", baseDePedidos.find(p => p.id === 2007));
+//TESTE FEATURE-05
+const resultado = somarPedidosPendentes();
