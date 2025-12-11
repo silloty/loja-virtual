@@ -109,11 +109,23 @@ function somarPedidosPendentes() {
 // Deve usar .forEach() (ou .map()) para corrigir o nome
 // do cliente no pedido "2007". Deve usar .trim() e
 // capitalizar o nome (ex: "Gabriela Sousa").
-// (Conflita com BUGFIX-13
+// aaa(Conflita com BUGFIX-13)
 
 // FEATURE-10: encontrarPedidoMaisBarato()
 // Deve usar .reduce() para varrer o array e retornar
 // o OBJETO completo do pedido com o 'total' mais baixo.
+
+function encontrarPedidoMaisBarato() {
+  return baseDePedidos.reduce((pedidoMaisBarato, pedidoAtual) => {
+    // Se ainda não existe um "menor", o primeiro vira o menor
+    if (!pedidoMaisBarato) return pedidoAtual;
+
+    // Compara o total atual com o menor total já encontrado
+    return (pedidoAtual.total < pedidoMaisBarato.total)
+      ? pedidoAtual
+      : pedidoMaisBarato;
+  }, null);
+}
 
 // FEATURE-11: listarPedidosRecentes(dias)
 // Deve usar .filter() e o objeto 'new Date()'
@@ -164,5 +176,5 @@ listarPedidosPorStatus("Pendente");
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003);
 
-//TESTE FEATURE-05
-const resultado = somarPedidosPendentes();
+
+//TESTE SILAS PR
