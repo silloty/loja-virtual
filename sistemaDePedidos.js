@@ -91,12 +91,20 @@ function buscarPedidoPorId(idDesejado) {
  * BUGFIX-02: Esta função deveria listar pedidos de um status, mas está quebrada.
  */
 function listarPedidosPorStatus(statusDesejado) {
-  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);
-  // BUG: A lógica do filtro está errada, não usa o parâmetro
+  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);  
   const pedidosFiltrados = baseDePedidos.filter((pedido) => {
     return pedido.status === "Entregue"; // Está fixo!
   });
   console.log(pedidosFiltrados);
+}
+
+function calcularTotalDeVendas(pedidos) {
+    return pedidos
+        .filter(pedido => pedido.status === "Entregue")
+        .reduce((acum, pedido) => {
+            const v = Number(pedido.valor ?? pedido.preco ?? pedido.total ?? 0);
+            return acum + v;
+        }, 0);
 }
 
 // ===================================================================
@@ -106,11 +114,19 @@ function listarPedidosPorStatus(statusDesejado) {
 // FEATURE-03: calcularTotalDeVendas()
 // Deve usar .filter() para pegar pedidos 'Entregue' e .reduce()
 // para somar o 'total' de todos eles. Deve retornar um número.
+function calcularTotalDeVendas() {
+  const pedidosEntregues = baseDePedidos.filter(pedido => pedido.status === 'Entregue');
+  const totalDeVendas = pedidosEntregues.reduce((soma, pedido) => soma += pedido.total, 0);
 
-// FEATURE-04: gerarResumoDePedidos()
-// Deve usar .map() para retornar um NOVO array de strings
-// com o formato: "ID: [id] - Cliente: [cliente] - Total: R$ [total]"
-// Ex: "ID: 2001 - Cliente: Ana Silva - Total: R$ 150.50"
+  return totalDeVendas;
+}
+
+function gerarResumoDePedidos() {
+  const resumo = baseDePedidos.map((pedido) => {
+    return `ID: ${pedido.id} - Cliente: ${pedido.cliente} - Total: R$ ${pedido.total.toFixed(2)}`;
+  });
+  return resumo;
+}
 
 // FEATURE-05: somarPedidosPendentes()
 // Deve usar .filter() e .reduce() para somar o 'total'
@@ -128,7 +144,10 @@ function listarPedidosPorStatus(statusDesejado) {
 // FEATURE-08: listarClientes()
 // Deve usar .map() para retornar um array
 // contendo APENAS o nome (cliente) de todos os pedidos.
-
+function listarClientes(){
+  const clientes = baseDePedidos.map(pedido => pedido.cliente);
+  return clientes;
+}
 // FEATURE-09: normalizarNomesClientes()
 // Deve usar .forEach() (ou .map()) para corrigir o nome
 // do cliente no pedido "2007". Deve usar .trim() e
@@ -143,6 +162,22 @@ function listarPedidosPorStatus(statusDesejado) {
 // Deve usar .filter() e o objeto 'new Date()'
 // para retornar pedidos feitos nos últimos 'dias' (ex: 7 dias).
 // Dica: new Date(pedido.data)
+
+function listarPedidosRecentes(dias) {
+  const hoje = new Date();
+
+  const pedidosRecentes = baseDePedidos.filter(pedido => {
+    const dataPedido = new Date(pedido.data);
+
+    const diferencaMes = hoje - dataPedido;
+    const msParaDia = 1000 * 60 * 60 * 24;
+    const diferencaDias = diferencaMes / msParaDia;
+
+    return diferencaDias <= dias;
+  });
+
+  return pedidosRecentes;
+}
 
 // FEATURE-12: contarStatusDosPedidos()
 // (Desafio!) Deve usar .reduce() para criar um objeto
@@ -163,7 +198,7 @@ function listarPedidosPorStatus(statusDesejado) {
 // (Conflito direto e intencional com BUGFIX-01)
 
 // ===================================================================
-// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)
+// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)]
 // ===================================================================
 
 // Teste do BUGFIX-02
