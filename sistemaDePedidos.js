@@ -5,14 +5,62 @@
 // Lembre-se: CRIE UMA BRANCH ANTES DE COMEÇAR!
 
 const baseDePedidos = [
-  { id: 2001, cliente: 'Ana Silva', total: 150.50, status: 'Pendente', data: '2025-11-04' },
-  { id: 2002, cliente: 'Bruno Costa', total: 89.90, status: 'Entregue', data: '2025-10-30' },
-  { id: 2003, cliente: 'Carla Dias', total: 230.00, status: 'Enviado', data: '2025-11-05' },
-  { id: 2004, cliente: 'Daniel Moreira', total: 45.00, status: 'Pendente', data: '2025-11-01' },
-  { id: 2005, cliente: 'Elisa Fernandes', total: 320.00, status: 'Entregue', data: '2025-11-03' },
-  { id: 2006, cliente: 'Felipe Guedes', total: 99.90, status: 'Cancelado', data: '2025-11-05' },
-  { id: 2007, cliente: '   gabriela sousa  ', total: 120.00, status: 'Entregue', data: '2025-10-29' }, // BUG: Nome com formatação errada
-  { id: "2008", cliente: 'Heitor Alves', total: 75.20, status: 'Enviado', data: '2025-11-02' }  // BUG: ID como string
+  {
+    id: 2001,
+    cliente: "Ana Silva",
+    total: 150.5,
+    status: "Pendente",
+    data: "2025-11-04",
+  },
+  {
+    id: 2002,
+    cliente: "Bruno Costa",
+    total: 89.9,
+    status: "Entregue",
+    data: "2025-10-30",
+  },
+  {
+    id: 2003,
+    cliente: "Carla Dias",
+    total: 230.0,
+    status: "Enviado",
+    data: "2025-11-05",
+  },
+  {
+    id: 2004,
+    cliente: "Daniel Moreira",
+    total: 45.0,
+    status: "Pendente",
+    data: "2025-11-01",
+  },
+  {
+    id: 2005,
+    cliente: "Elisa Fernandes",
+    total: 320.0,
+    status: "Entregue",
+    data: "2025-11-03",
+  },
+  {
+    id: 2006,
+    cliente: "Felipe Guedes",
+    total: 99.9,
+    status: "Cancelado",
+    data: "2025-11-05",
+  },
+  {
+    id: 2007,
+    cliente: "   gabriela sousa  ",
+    total: 120.0,
+    status: "Entregue",
+    data: "2025-10-29",
+  }, // BUG: Nome com formatação errada
+  {
+    id: "2008",
+    cliente: "Heitor Alves",
+    total: 75.2,
+    status: "Enviado",
+    data: "2025-11-02",
+  }, // BUG: ID como string
 ];
 
 // ===================================================================
@@ -21,19 +69,21 @@ const baseDePedidos = [
 
 /**
  * BUGFIX-01: Esta função deveria encontrar um pedido pelo ID.
- * Ela não está usando try...catch e não lida com o ID "2008" (string).
+ * Ela não lida com o ID "2008" (string).
  */
 function buscarPedidoPorId(idDesejado) {
-  // BUG: Não tem try...catch
-  const pedidoEncontrado = baseDePedidos.find((pedido) => {
-    return pedido.id === idDesejado; // BUG: Falha com "2008"
-  });
+  try {
+    const pedidoEncontrado = baseDePedidos.find((pedido) => {
+      return Number(pedido.id) == Number(idDesejado);
+    });
 
-  if (pedidoEncontrado) {
-    console.log("Pedido encontrado:", pedidoEncontrado);
-  } else {
-    // BUG: Deveria lançar 'throw new Error'
-    console.log("ERRO: Pedido não encontrado.");
+    if (pedidoEncontrado) {
+      console.log("Pedido encontrado:", pedidoEncontrado);
+    } else {
+      throw new Error(`ERRO: Pedido não encontrado.`);
+    }
+  } catch (erro) {
+    console.log(`Entrada não corresponde a nenhum pedido. `, erro.message);
   }
 }
 
@@ -43,7 +93,7 @@ function buscarPedidoPorId(idDesejado) {
 function listarPedidosPorStatus(statusDesejado) {
   console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);  
   const pedidosFiltrados = baseDePedidos.filter((pedido) => {
-    return pedido.status === statusDesejado; // Não está mais fixo, vai bater com o parâmetro
+    return pedido.status === "Entregue"; // Está fixo!
   });
   console.log(pedidosFiltrados);
 }
@@ -156,9 +206,3 @@ listarPedidosPorStatus("Pendente");
 
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003); // Deve funcionar
-
-// Teste do BUGFIX-14
-buscarPedidoPorId("2008");
-buscarPedidoPorId(9999);
-
-//TESTE SILAS PR
