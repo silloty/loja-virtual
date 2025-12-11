@@ -21,19 +21,21 @@ const baseDePedidos = [
 
 /**
  * BUGFIX-01: Esta função deveria encontrar um pedido pelo ID.
- * Ela não está usando try...catch e não lida com o ID "2008" (string).
+ * Ela não lida com o ID "2008" (string).
  */
 function buscarPedidoPorId(idDesejado) {
-  // BUG: Não tem try...catch
-  const pedidoEncontrado = baseDePedidos.find((pedido) => {
-    return pedido.id === idDesejado; // BUG: Falha com "2008"
-  });
+  try {
+    const pedidoEncontrado = baseDePedidos.find((pedido) => {
+      return Number(pedido.id) == Number(idDesejado);
+    });
 
-  if (pedidoEncontrado) {
-    console.log("Pedido encontrado:", pedidoEncontrado);
-  } else {
-    // BUG: Deveria lançar 'throw new Error'
-    console.log("ERRO: Pedido não encontrado.");
+    if (pedidoEncontrado) {
+      console.log("Pedido encontrado:", pedidoEncontrado);
+    } else {
+      throw new Error(`ERRO: Pedido não encontrado.`);
+    }
+  } catch (erro) {
+    console.log(`Entrada não corresponde a nenhum pedido. `, erro.message);
   }
 }
 
@@ -41,12 +43,20 @@ function buscarPedidoPorId(idDesejado) {
  * BUGFIX-02: Esta função deveria listar pedidos de um status, mas está quebrada.
  */
 function listarPedidosPorStatus(statusDesejado) {
-  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);
-  // BUG: A lógica do filtro está errada, não usa o parâmetro
+  console.log(`\nBuscando pedidos com status: ${statusDesejado}...`);  
   const pedidosFiltrados = baseDePedidos.filter((pedido) => {
-    return pedido.status === 'Entregue'; // Está fixo!
+    return pedido.status === "Entregue"; // Está fixo!
   });
   console.log(pedidosFiltrados);
+}
+
+function calcularTotalDeVendas(pedidos) {
+    return pedidos
+        .filter(pedido => pedido.status === "Entregue")
+        .reduce((acum, pedido) => {
+            const v = Number(pedido.valor ?? pedido.preco ?? pedido.total ?? 0);
+            return acum + v;
+        }, 0);
 }
 
 // ===================================================================
@@ -56,11 +66,19 @@ function listarPedidosPorStatus(statusDesejado) {
 // FEATURE-03: calcularTotalDeVendas()
 // Deve usar .filter() para pegar pedidos 'Entregue' e .reduce()
 // para somar o 'total' de todos eles. Deve retornar um número.
+function calcularTotalDeVendas() {
+  const pedidosEntregues = baseDePedidos.filter(pedido => pedido.status === 'Entregue');
+  const totalDeVendas = pedidosEntregues.reduce((soma, pedido) => soma += pedido.total, 0);
 
-// FEATURE-04: gerarResumoDePedidos()
-// Deve usar .map() para retornar um NOVO array de strings
-// com o formato: "ID: [id] - Cliente: [cliente] - Total: R$ [total]"
-// Ex: "ID: 2001 - Cliente: Ana Silva - Total: R$ 150.50"
+  return totalDeVendas;
+}
+
+function gerarResumoDePedidos() {
+  const resumo = baseDePedidos.map((pedido) => {
+    return `ID: ${pedido.id} - Cliente: ${pedido.cliente} - Total: R$ ${pedido.total.toFixed(2)}`;
+  });
+  return resumo;
+}
 
 // FEATURE-05: somarPedidosPendentes()
 // Deve usar .filter() e .reduce() para somar o 'total'
@@ -113,6 +131,22 @@ function normalizarNomesClientes() {
 // para retornar pedidos feitos nos últimos 'dias' (ex: 7 dias).
 // Dica: new Date(pedido.data)
 
+function listarPedidosRecentes(dias) {
+  const hoje = new Date();
+
+  const pedidosRecentes = baseDePedidos.filter(pedido => {
+    const dataPedido = new Date(pedido.data);
+
+    const diferencaMes = hoje - dataPedido;
+    const msParaDia = 1000 * 60 * 60 * 24;
+    const diferencaDias = diferencaMes / msParaDia;
+
+    return diferencaDias <= dias;
+  });
+
+  return pedidosRecentes;
+}
+
 // FEATURE-12: contarStatusDosPedidos()
 // (Desafio!) Deve usar .reduce() para criar um objeto
 // que conta quantos pedidos existem em CADA status.
@@ -132,7 +166,7 @@ function normalizarNomesClientes() {
 // (Conflito direto e intencional com BUGFIX-01)
 
 // ===================================================================
-// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)
+// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)]
 // ===================================================================
 
 // Teste do BUGFIX-02
