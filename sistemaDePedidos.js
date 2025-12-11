@@ -57,10 +57,12 @@ function listarPedidosPorStatus(statusDesejado) {
 // Deve usar .filter() para pegar pedidos 'Entregue' e .reduce()
 // para somar o 'total' de todos eles. Deve retornar um número.
 
-// FEATURE-04: gerarResumoDePedidos()
-// Deve usar .map() para retornar um NOVO array de strings
-// com o formato: "ID: [id] - Cliente: [cliente] - Total: R$ [total]"
-// Ex: "ID: 2001 - Cliente: Ana Silva - Total: R$ 150.50"
+function gerarResumoDePedidos() {
+  const resumo = baseDePedidos.map((pedido) => {
+    return `ID: ${pedido.id} - Cliente: ${pedido.cliente} - Total: R$ ${pedido.total.toFixed(2)}`;
+  });
+  return resumo;
+}
 
 // FEATURE-05: somarPedidosPendentes()
 // Deve usar .filter() e .reduce() para somar o 'total'
@@ -123,3 +125,7 @@ listarPedidosPorStatus("Pendente");
 buscarPedidoPorId(2003); // Deve funcionar
 
 //TESTE SILAS PR
+
+// Teste da FEATURE-04
+console.log("\n--- Resumo de Pedidos ---");
+console.log(gerarResumoDePedidos());
