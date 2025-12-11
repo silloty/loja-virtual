@@ -148,7 +148,7 @@ function listarPedidosRecentes(dias) {
 // (Conflito direto e intencional com BUGFIX-01)
 
 // ===================================================================
-// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)
+// ÁREA DE TESTES (Adicione suas chamadas de função aqui para testar)]
 // ===================================================================
 
 // Teste do BUGFIX-02
@@ -157,8 +157,8 @@ listarPedidosPorStatus("Pendente");
 // Teste do BUGFIX-01
 buscarPedidoPorId(2003); // Deve funcionar
 
-//TESTE SILAS PR
+// Teste do BUGFIX-14
+buscarPedidoPorId("2008");
+buscarPedidoPorId(9999);
 
-// Teste da FEATURE-04
-console.log("\n--- Resumo de Pedidos ---");
-console.log(gerarResumoDePedidos());
+//TESTE SILAS PR
